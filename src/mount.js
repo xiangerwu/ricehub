@@ -18,6 +18,9 @@
     Button.purge(doc);
 
     const parts = Button.createButton(doc, () => onActivate(repo, parts), language);
+    if (placement && placement.destination) {
+      Button.setLanguage(parts, language, placement.destination);
+    }
     parts.button.setAttribute('data-ricehub-repo', repo.canonicalUrl);
     return Button.mount(doc, parts, repo, win, placement);
   }

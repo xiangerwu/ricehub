@@ -24,6 +24,20 @@
     }),
   });
   const MOVE_LABELS = Object.freeze({ en: 'Drag to move', 'zh-TW': '拖曳以移動' });
+  // Punctuation belongs to the language too; an ASCII full stop between Chinese
+  // clauses reads as a mistake to anyone actually reading it.
+  const SEPARATORS = Object.freeze({ en: '. ', 'zh-TW': '。' });
+  // Said at the point of action, not only in the options page. Someone deciding whether
+  // to press this should be able to read what leaves the page and where it goes without
+  // having opened anything else first.
+  const DISCLOSURE = Object.freeze({
+    en: (target) => `Sends this repository's address and page title to ${target}`,
+    'zh-TW': (target) => `會把這個儲存庫的網址與頁面標題送到${target}`,
+  });
+  const TARGETS = Object.freeze({
+    en: { claude: 'Claude Desktop', codex: 'Codex Desktop', custom: 'your configured address' },
+    'zh-TW': { claude: 'Claude 桌面版', codex: 'Codex 桌面版', custom: '你設定的網址' },
+  });
   const REPOSITORY_MARKER_SELECTORS = Object.freeze([
     '#repository-details-container ul',
     '#repository-container-header',
@@ -227,17 +241,26 @@
     const labels = LABELS[language] || LABELS[DEFAULT_LANGUAGE];
     const label = labels[state] || labels[STATE.IDLE];
     const text = detail ? `${label}: ${detail}` : label;
-    const action = `${labels[STATE.IDLE]}. ${MOVE_LABELS[language] || MOVE_LABELS[DEFAULT_LANGUAGE]}`;
+    const destination = parts.button.getAttribute('data-ricehub-destination') || 'claude';
+    const targets = TARGETS[language] || TARGETS[DEFAULT_LANGUAGE];
+    const disclose = DISCLOSURE[language] || DISCLOSURE[DEFAULT_LANGUAGE];
+    const gap = SEPARATORS[language] || SEPARATORS[DEFAULT_LANGUAGE];
+    const action = [
+      labels[STATE.IDLE],
+      disclose(targets[destination] || targets.claude),
+      MOVE_LABELS[language] || MOVE_LABELS[DEFAULT_LANGUAGE],
+    ].join(gap);
     parts.button.setAttribute('data-ricehub-state', state);
     parts.button.setAttribute('aria-label', action);
-    parts.button.setAttribute('title', state === STATE.IDLE ? action : `${text}. ${action}`);
+    parts.button.setAttribute('title', state === STATE.IDLE ? action : `${text}${gap}${action}`);
     parts.status.textContent = text;
     return state;
   }
 
-  function setLanguage(parts, language) {
+  function setLanguage(parts, language, destination) {
     const selected = LABELS[language] ? language : DEFAULT_LANGUAGE;
     parts.button.setAttribute('data-ricehub-language', selected);
+    if (destination) parts.button.setAttribute('data-ricehub-destination', destination);
     return setState(parts, parts.button.getAttribute('data-ricehub-state') || STATE.IDLE);
   }
 
@@ -258,6 +281,8 @@
     STATUS_ID,
     STATE,
     LABELS,
+    DISCLOSURE,
+    TARGETS,
     DEFAULT_LANGUAGE,
     REPOSITORY_MARKER_SELECTORS,
     findRepositoryMarker,

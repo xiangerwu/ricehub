@@ -91,7 +91,7 @@
       current = Settings.normalizeSettings(changes[Settings.STORAGE_KEY].newValue);
       applyAppearance(doc, current, imageUrl);
       const parts = Button.findExisting(doc);
-      if (parts) Button.setLanguage(parts, current.language);
+      if (parts) Button.setLanguage(parts, current.language, current.destination);
     };
     browserApi.storage.onChanged.addListener(onStorageChanged);
 
@@ -104,6 +104,7 @@
         getLanguage: () => current.language,
         getPlacement: () => ({
           position: current.buttonPosition,
+          destination: current.destination,
           // Written only once a drag or key press settles, and merged into the settings
           // already in hand so saving a position cannot discard anything else.
           onSettled: (buttonPosition) => {

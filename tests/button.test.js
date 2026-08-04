@@ -339,3 +339,36 @@ test('dragging and restoring share one clamp', () => {
   const clamps = source.match(/Math\.min\(maxLeft/g) || [];
   assert.strictEqual(clamps.length, 1, 'the clamp must exist in exactly one place');
 });
+
+test('the button says what it sends and where, at the point of pressing it', () => {
+  // Mozilla expects the disclosure where the action happens, not only on the options
+  // page. Someone deciding whether to press this should not have to go looking.
+  const doc = newDoc();
+  for (const [language, destination, expected] of [
+    ['en', 'claude', 'Claude Desktop'],
+    ['en', 'codex', 'Codex Desktop'],
+    ['zh-TW', 'claude', 'Claude 桌面版'],
+    ['zh-TW', 'custom', '你設定的網址'],
+  ]) {
+    const parts = button.createButton(doc, () => {}, language);
+    button.setLanguage(parts, language, destination);
+    const title = parts.button.getAttribute('title');
+
+    assert.ok(title.includes(expected), `${language}/${destination} must name the destination`);
+    assert.strictEqual(title, parts.button.getAttribute('aria-label'));
+    const says = language === 'zh-TW' ? '網址與頁面標題' : "address and page title";
+    assert.ok(title.includes(says), 'and must say what leaves the page');
+  }
+});
+
+test('punctuation follows the language', () => {
+  const doc = newDoc();
+  const zh = button.createButton(doc, () => {}, 'zh-TW');
+  button.setLanguage(zh, 'zh-TW', 'claude');
+  button.setState(zh, button.STATE.FAILED, '太長');
+  assert.ok(!/\. /.test(zh.button.getAttribute('title')), 'no ASCII full stops in Chinese');
+
+  const en = button.createButton(doc, () => {}, 'en');
+  button.setLanguage(en, 'en', 'claude');
+  assert.ok(/\. /.test(en.button.getAttribute('title')), 'English keeps its full stops');
+});
