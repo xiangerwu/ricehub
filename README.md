@@ -49,7 +49,7 @@ Then open the extension's options page and choose a destination.
 
 **Language.** Applies both to the settings page and to the language the analysis is requested in.
 
-**Floating button.** Size, and one colour per destination. The ring around the button is the colour of the destination a click would open, so which agent you are about to use is visible without opening this page. Drag the button anywhere on the page and it stays there; arrow keys nudge it. It starts in the bottom left, the corner of a repository page that carries the least content.
+**Floating button.** Size, and one colour per destination. The ring around the button is the colour of the destination a click would open, so which agent you are about to use is visible without opening this page. Hovering the button, or reaching it with a screen reader, names that destination and says what leaves the page: the repository's address and the page title. Drag the button anywhere on the page and it stays there; arrow keys nudge it. It starts in the bottom left, the corner of a repository page that carries the least content.
 
 **Analysis sections.** Tick what the report should cover. Each section has a two-line field: leave it empty to ask the default question, or write your own wording to replace it.
 

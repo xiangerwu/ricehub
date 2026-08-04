@@ -26,5 +26,4 @@ aidd_docs/
 .codebase-memory/
 
 # Source and upload-only artwork; keep the runtime logo and 256px FAB
-docs/branding/ricehub-fab-master.png
 src/icons/fab/ricehub-fab-128.png

@@ -8,6 +8,10 @@ This directory is separate from the extension ZIP. It contains listing material 
 - `screenshot-github-1280x800.png`: an actual 1280×800 Edge screenshot showing RiceHub on a GitHub repository page.
 - `screenshot-settings-1280x800.png`: an actual 1280×800 Traditional Chinese screenshot of the RiceHub settings page.
 - `promo-small-440x280.png`: the required 440×280 small promotional image, scaled from the existing social preview without generative edits.
+- `promo-marquee-1400x560.png`: the optional 1400×560 marquee image, from the same source. Chrome shows it only to featured listings, so it is not needed to submit.
+
+Icons are scaled from `docs/branding/ricehub-fab-master.png`, the 512px transparent
+original. Regenerate rather than upscale a smaller copy.
 
 ## Copy into the Dashboard
 
