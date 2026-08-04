@@ -98,6 +98,7 @@ test('the stylesheet places the enlarged icon-only control on the left', () => {
   const icon = fs.readFileSync(
     path.join(__dirname, '..', 'src', 'icons', 'fab', 'ricehub-fab-256.png'),
   );
+  assert.match(css, /\.ricehub-panel\s*\{[^}]*left:\s*24px;[^}]*/s);
   assert.match(css, /\.ricehub-panel\s*\{[^}]*bottom:\s*24px;[^}]*width:\s*var\(--ricehub-button-size,\s*88px\);[^}]*height:\s*var\(--ricehub-button-size,\s*88px\);/s);
   assert.match(css, /\.ricehub-analyze-button\s*\{[^}]*width:\s*var\(--ricehub-button-size,\s*88px\);[^}]*height:\s*var\(--ricehub-button-size,\s*88px\);/s);
   // No border at all: the artwork supplies its own ring, so a drawn one doubles it.
@@ -110,7 +111,7 @@ test('the stylesheet places the enlarged icon-only control on the left', () => {
   // shows through, and that gap reads as a second border beside the configurable one.
   // Inset so the destination colour reads as a ring rather than being hidden by the art.
   assert.match(css, /\.ricehub-analyze-button::before\s*\{[^}]*width:\s*calc\(100% - 10px\);/s);
-  assert.match(css, /url\("icons\/fab\/ricehub-fab-256\.png"\)/);
+  assert.match(css, /background-image:\s*var\(--ricehub-button-image\);/);
   assert.match(css, /background-size:\s*contain;/);
   assert.match(css, /background-position:\s*center;/);
   assert.strictEqual(icon.readUInt32BE(16), 256, 'floating icon width');

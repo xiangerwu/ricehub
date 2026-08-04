@@ -10,6 +10,9 @@ const REPO = 'https://github.com/mdn/webextensions-examples';
 function browserStub(value) {
   const listeners = new Set();
   return {
+    runtime: {
+      getURL(resource) { return `chrome-extension://ricehub/${resource}`; },
+    },
     storage: {
       local: { async get() { return { [settings.STORAGE_KEY]: value }; } },
       onChanged: {
@@ -113,6 +116,10 @@ test('stored language localizes the panel and live storage changes update it', a
   assert.ok(action.getAttribute('aria-label').includes(button.LABELS['zh-TW'][button.STATE.IDLE]));
   assert.strictEqual(cssVariables.get('--ricehub-button-size'), '112px');
   assert.strictEqual(cssVariables.get('--ricehub-button-background'), '#123456');
+  assert.strictEqual(
+    cssVariables.get('--ricehub-button-image'),
+    'url("chrome-extension://ricehub/src/icons/fab/ricehub-fab-256.png")',
+  );
   for (const listener of browserApi.listeners) {
     listener({
       [settings.STORAGE_KEY]: {

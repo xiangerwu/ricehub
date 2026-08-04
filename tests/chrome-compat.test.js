@@ -29,7 +29,14 @@ test('Chrome-only globals start every browser entry point', () => {
     let loadedFrom;
     const context = {
       ...globals,
-      chrome: { storage: { local } },
+      chrome: {
+        runtime: {
+          getURL(resource) {
+            return `chrome-extension://ricehub/${resource}`;
+          },
+        },
+        storage: { local },
+      },
       document: { getElementById: () => null },
       RiceHubSettings: {
         load(storageArea) {

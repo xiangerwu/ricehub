@@ -18,4 +18,4 @@ This directory is separate from the extension ZIP. It contains listing material 
 
 Capture screenshots only after the final Chrome smoke test. The existing `docs/branding/ricehub-social-preview*.png` files are 1280×640, so they do not meet either required dimension and must not be uploaded in those fields. The 512×512 logo and FAB master are source artwork, not store-ready assets. A 1400×560 marquee image is optional.
 
-The release ZIP is generated separately at `web-ext-artifacts/ricehub-0.1.0.zip`. Do not add this directory, tests, repository documentation, or development files to that ZIP.
+The release ZIP is generated separately at `web-ext-artifacts/ricehub-0.1.1.zip`. Do not add this directory, tests, repository documentation, or development files to that ZIP.

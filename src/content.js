@@ -6,6 +6,7 @@
   const Settings = root.RiceHubSettings || require('./settings.js');
   const Button = root.RiceHubButton || require('./button.js');
   const Mount = root.RiceHubMount || require('./mount.js');
+  const BUTTON_IMAGE_PATH = 'src/icons/fab/ricehub-fab-256.png';
   const DETAILS = Object.freeze({
     en: Object.freeze({ popupBlocked: 'popup blocked', checkSettings: 'check extension settings' }),
     'zh-TW': Object.freeze({ popupBlocked: '彈出視窗遭封鎖', checkSettings: '請檢查擴充功能設定' }),
@@ -56,26 +57,28 @@
     };
   }
 
-  function applyAppearance(doc, settings) {
+  function applyAppearance(doc, settings, imageUrl) {
     const style = doc && doc.documentElement && doc.documentElement.style;
     if (!style || typeof style.setProperty !== 'function') return;
     style.setProperty('--ricehub-button-size', `${settings.buttonSize}px`);
     style.setProperty('--ricehub-button-background', Settings.destinationColor(settings));
+    style.setProperty('--ricehub-button-image', `url("${imageUrl}")`);
   }
 
   async function start(win, doc, browserApi, { ObserverImpl } = {}) {
+    const imageUrl = browserApi.runtime.getURL(BUTTON_IMAGE_PATH);
     let current;
     try {
       current = await Settings.load(browserApi.storage.local);
     } catch {
       current = Settings.normalizeSettings();
     }
-    applyAppearance(doc, current);
+    applyAppearance(doc, current, imageUrl);
 
     const onStorageChanged = (changes, areaName) => {
       if (areaName !== 'local' || !changes[Settings.STORAGE_KEY]) return;
       current = Settings.normalizeSettings(changes[Settings.STORAGE_KEY].newValue);
-      applyAppearance(doc, current);
+      applyAppearance(doc, current, imageUrl);
       const parts = Button.findExisting(doc);
       if (parts) Button.setLanguage(parts, current.language);
     };

@@ -1,13 +1,14 @@
 .ricehub-panel {
   position: fixed;
   z-index: 2147483647;
-  /* Bottom right by default. Top left sat on GitHub's own navigation, and a control
-     that covers the page it decorates is worse than one that is slightly out of the way.
+  /* Bottom left by default: on a GitHub repository page that corner holds the least
+     content, so the control covers the least. Top left sat on the site's own navigation,
+     and the bottom right runs into the content that grows down the page.
      A dragged position is remembered, so this is only where it starts. */
   top: auto;
-  right: 24px;
+  right: auto;
   bottom: 24px;
-  left: auto;
+  left: 24px;
   width: var(--ricehub-button-size, 88px);
   height: var(--ricehub-button-size, 88px);
   color: #fff;
@@ -48,7 +49,7 @@
   width: calc(100% - 10px);
   height: calc(100% - 10px);
   content: "";
-  background-image: url("icons/fab/ricehub-fab-256.png");
+  background-image: var(--ricehub-button-image);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
