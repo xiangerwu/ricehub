@@ -155,7 +155,11 @@
     });
     button.addEventListener('pointermove', (event) => {
       if (!drag || event.pointerId !== drag.pointerId) return;
-      if (Math.abs(event.clientX - drag.startX) + Math.abs(event.clientY - drag.startY) < 4) return;
+      // 10px, not 4. A press drifts a few pixels on a trackpad, and the click after a
+      // drag is swallowed on purpose, so too tight a threshold turns an imprecise press
+      // into a press that does nothing. This is a comfort change, not a fix for the
+      // empty-composer report in the README; that one is not on this side.
+      if (Math.abs(event.clientX - drag.startX) + Math.abs(event.clientY - drag.startY) < 10) return;
       drag.moved = true;
       position(event.clientX - drag.x, event.clientY - drag.y);
       if (event.preventDefault) event.preventDefault();

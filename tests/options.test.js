@@ -195,3 +195,42 @@ test('init localizes validation and storage failures', async () => {
     i18n.STRINGS['zh-TW']['status.failed'],
   );
 });
+
+test('saving keeps settings the form does not own', async () => {
+  // The dragged button position is written by the content script, not by this form.
+  // Rebuilding the object from form fields alone erased it on every save.
+  const doc = optionsDocument();
+  const stored = {
+    ricehubSettings: {
+      destination: 'claude',
+      language: 'en',
+      sectionIds: ['risks'],
+      buttonSize: 88,
+      buttonPosition: { left: 900, top: 640 },
+    },
+  };
+  const writes = [];
+  const browserApi = {
+    storage: {
+      local: {
+        get: async () => stored,
+        set: async (value) => { writes.push(value); },
+      },
+    },
+  };
+
+  await options.init(doc, browserApi);
+  doc.querySelectorAll('input[name="section"]')[0].checked = true;
+  doc.getElementById('language').value = 'zh-TW';
+  doc.getElementById('settings-form').dispatch('submit', { preventDefault() {} });
+  await new Promise((resolve) => setImmediate(resolve));
+
+  assert.ok(writes.length, 'the form must have saved');
+  const saved = writes[writes.length - 1].ricehubSettings;
+  assert.strictEqual(saved.language, 'zh-TW', 'the edited field must win');
+  assert.deepStrictEqual(
+    saved.buttonPosition,
+    { left: 900, top: 640 },
+    'a setting this form does not show must survive the save',
+  );
+});

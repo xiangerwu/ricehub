@@ -116,7 +116,11 @@
       event.preventDefault();
       const status = doc.getElementById('save-status');
       try {
-        await Settings.save(browserApi.storage.local, readForm(doc));
+        // Re-read first. The content script writes the dragged button position while
+        // this page is open, and a form that rebuilds the settings object from its own
+        // fields alone would erase that position on every save.
+        const stored = await Settings.load(browserApi.storage.local);
+        await Settings.save(browserApi.storage.local, { ...stored, ...readForm(doc) });
         status.textContent = message(doc, 'status.saved', 'Settings saved.');
       } catch (error) {
         const fallback = error instanceof Error ? error.message : 'Could not save settings.';

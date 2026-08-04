@@ -49,7 +49,7 @@ Then open the extension's options page and choose a destination.
 
 **Language.** Applies both to the settings page and to the language the analysis is requested in.
 
-**Floating button.** Size, and one colour per destination. The ring around the button is the colour of the destination a click would open, so which agent you are about to use is visible without opening this page. Drag the button anywhere on the page and it stays there; arrow keys nudge it. It starts in the bottom right.
+**Floating button.** Size, and one colour per destination. The ring around the button is the colour of the destination a click would open, so which agent you are about to use is visible without opening this page. Drag the button anywhere on the page and it stays there; arrow keys nudge it. It starts in the bottom left, the corner of a repository page that carries the least content.
 
 **Analysis sections.** Tick what the report should cover. Each section has a two-line field: leave it empty to ask the default question, or write your own wording to replace it.
 
@@ -80,6 +80,17 @@ If pressing the button does nothing:
 2. Allow the browser to open the external application if it asks for confirmation.
 3. Select another built-in destination in RiceHub. If one app opens and the other does not, the failing app's protocol handler is the likely boundary.
 4. After changing local extension files, reload the unpacked extension and the GitHub repository tab.
+
+If the agent opens but its composer is empty:
+
+This was measured on 2026-08-04. Opening a desktop deep link, clearing the composer, and
+opening the identical link again left the composer empty; the same link with a few
+trailing spaces filled it. The agent treats a link it has already handled as a repeat.
+
+RiceHub now appends a small, varying amount of trailing whitespace to every desktop
+launch, so no two launches are textually identical. Custom HTTPS destinations are left
+exactly as configured, because padding someone else's endpoint is not this extension's
+decision. If an empty composer still appears, the padding is the first thing to check.
 
 For Codex, [`src/button.js`](src/button.js) exposes the generated link only during a trusted click, then clears its `href` in the next task. This keeps custom prompt instructions from remaining in GitHub's DOM without delaying native link activation.
 

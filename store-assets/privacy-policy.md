@@ -10,4 +10,4 @@ RiceHub stores only configuration in the browser's local extension storage: dest
 
 RiceHub has no developer-operated server, analytics, advertising, or sale of user data. It does not execute remote code.
 
-Questions or deletion requests: **[replace with a public contact address before publishing]**.
+Questions or deletion requests: <https://github.com/xiangerwu>.
