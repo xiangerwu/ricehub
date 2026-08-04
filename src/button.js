@@ -125,15 +125,7 @@
       onSettled({ left: Math.round(rect.left), top: Math.round(rect.top) });
     };
 
-    const position = (left, top) => {
-      const width = panel.offsetWidth || 0;
-      const height = panel.offsetHeight || 0;
-      const maxLeft = Math.max(0, (win.innerWidth || width) - width);
-      const maxTop = Math.max(0, (win.innerHeight || height) - height);
-      panel.style.left = `${Math.min(maxLeft, Math.max(0, left))}px`;
-      panel.style.top = `${Math.min(maxTop, Math.max(0, top))}px`;
-      panel.style.right = 'auto';
-    };
+    const position = (left, top) => placePanel(panel, win, left, top);
 
     button.addEventListener('dragstart', (event) => {
       if (event && event.preventDefault) event.preventDefault();
@@ -187,15 +179,29 @@
     });
   }
 
-  /** Puts the panel back where the user last left it. */
-  function applyPosition(parts, position) {
+  /**
+   * Puts the panel at a viewport position, never outside it.
+   *
+   * Dragging and restoring both come through here. They used to have a clamp each, and
+   * only the dragging one kept it, so a position saved on a wide screen came back on a
+   * narrow one entirely off-screen: invisible, unclickable, and impossible to drag back.
+   */
+  function placePanel(panel, win, left, top) {
+    const width = panel.offsetWidth || 0;
+    const height = panel.offsetHeight || 0;
+    const maxLeft = Math.max(0, (win && win.innerWidth ? win.innerWidth : width) - width);
+    const maxTop = Math.max(0, (win && win.innerHeight ? win.innerHeight : height) - height);
+    panel.style.left = `${Math.min(maxLeft, Math.max(0, left))}px`;
+    panel.style.top = `${Math.min(maxTop, Math.max(0, top))}px`;
+    panel.style.right = 'auto';
+    panel.style.bottom = 'auto';
+  }
+
+  function applyPosition(parts, position, win) {
     if (!parts || !parts.panel || !position) return false;
     const { left, top } = position;
     if (!Number.isFinite(left) || !Number.isFinite(top)) return false;
-    parts.panel.style.left = `${left}px`;
-    parts.panel.style.top = `${top}px`;
-    parts.panel.style.right = 'auto';
-    parts.panel.style.bottom = 'auto';
+    placePanel(parts.panel, win, left, top);
     return true;
   }
 
@@ -241,7 +247,7 @@
     purge(doc);
     if (!findRepositoryMarker(doc, repo)) return null;
     doc.body.append(parts.panel);
-    applyPosition(parts, position);
+    applyPosition(parts, position, win);
     makeDraggable(parts, win, onSettled);
     return parts.button;
   }
@@ -260,6 +266,7 @@
     purge,
     createButton,
     applyPosition,
+    placePanel,
     makeDraggable,
     setState,
     setLanguage,

@@ -312,3 +312,30 @@ test('the floating control drags without launching and still supports keyboard m
   parts.button.dispatch('keydown', { key: 'ArrowRight', preventDefault() {} });
   assert.strictEqual(parts.panel.style.left, '290px');
 });
+
+test('a position saved on a wide screen is brought back inside a narrow one', () => {
+  // Dragging clamped to the viewport; restoring did not. A button restored past the edge
+  // is invisible, unclickable, and cannot be dragged back, so there is no way out of it.
+  const doc = newDoc();
+  const parts = button.createButton(doc, () => {});
+  const win = { innerWidth: 1280, innerHeight: 800 };
+  parts.panel.offsetWidth = 88;
+  parts.panel.offsetHeight = 88;
+
+  button.mount(doc, parts, { owner: 'a', repo: 'b' }, win, {
+    position: { left: 2400, top: 1300 },
+  });
+
+  const left = parseInt(parts.panel.style.left, 10);
+  const top = parseInt(parts.panel.style.top, 10);
+  assert.ok(left <= 1280 - 88, `left ${left} is past the right edge`);
+  assert.ok(top <= 800 - 88, `top ${top} is past the bottom edge`);
+  assert.ok(left >= 0 && top >= 0, 'and never past the top or left edge either');
+});
+
+test('dragging and restoring share one clamp', () => {
+  // Two copies of this rule is how the restore path came to be missing it.
+  const source = fs.readFileSync(path.join(__dirname, '..', 'src', 'button.js'), 'utf8');
+  const clamps = source.match(/Math\.min\(maxLeft/g) || [];
+  assert.strictEqual(clamps.length, 1, 'the clamp must exist in exactly one place');
+});
