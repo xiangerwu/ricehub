@@ -5,6 +5,9 @@
   const NAME_PATTERN = /^[A-Za-z0-9._-]+$/;
   const MAX_TITLE_CHARS = 200;
   const MAX_PROMPT_CHARS = 5000;
+  // Windows hands a protocol URL to its handler as a command line, which is bounded near
+  // 8,191 characters. Staying under that also stays under the length the agent keeps.
+  const MAX_ENCODED_CHARS = 7500;
   const MAX_SECTION_PROMPT_CHARS = 500;
   const LANGUAGE = Object.freeze({ ENGLISH: 'en', CHINESE: 'zh-TW' });
 
@@ -168,7 +171,14 @@
       }),
     ].join('\n');
 
-    if (prompt.length > MAX_PROMPT_CHARS) throw new Error('prompt exceeds size limit');
+    // Measured on what is actually sent, not on what was typed. The prompt travels
+    // percent-encoded inside a URL, where a Latin character costs one character and a
+    // Chinese one costs nine, so a character count bounds English and lets Chinese past:
+    // a full page of Chinese questions reaches 35,000 characters of URL while still
+    // sitting inside a 5,000 character prompt.
+    if (encodeURIComponent(prompt).length > MAX_ENCODED_CHARS) {
+      throw new Error('prompt exceeds size limit');
+    }
     return prompt;
   }
 
@@ -176,6 +186,7 @@
     ANALYSIS_SECTIONS,
     LANGUAGE,
     MAX_PROMPT_CHARS,
+    MAX_ENCODED_CHARS,
     MAX_SECTION_PROMPT_CHARS,
     parseRepo,
     requireRepo,

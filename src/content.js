@@ -8,8 +8,16 @@
   const Mount = root.RiceHubMount || require('./mount.js');
   const BUTTON_IMAGE_PATH = 'src/icons/fab/ricehub-fab-256.png';
   const DETAILS = Object.freeze({
-    en: Object.freeze({ popupBlocked: 'popup blocked', checkSettings: 'check extension settings' }),
-    'zh-TW': Object.freeze({ popupBlocked: '彈出視窗遭封鎖', checkSettings: '請檢查擴充功能設定' }),
+    en: Object.freeze({
+      popupBlocked: 'popup blocked',
+      checkSettings: 'check extension settings',
+      tooLong: 'questions too long, shorten them in settings',
+    }),
+    'zh-TW': Object.freeze({
+      popupBlocked: '彈出視窗遭封鎖',
+      checkSettings: '請檢查擴充功能設定',
+      tooLong: '自訂問法太長，請到設定縮短',
+    }),
   });
 
   function requestOpen(win, settings, launchUrl) {
@@ -50,8 +58,11 @@
           requested ? undefined : detail.popupBlocked,
         );
         return false;
-      } catch {
-        Button.setState(parts, Button.STATE.FAILED, detail.checkSettings);
+      } catch (error) {
+        // Length is the one failure a user can act on without reading anything else, so
+        // it says what to do instead of pointing vaguely at the settings page.
+        const tooLong = error instanceof Error && /size limit/.test(error.message);
+        Button.setState(parts, Button.STATE.FAILED, tooLong ? detail.tooLong : detail.checkSettings);
         return false;
       }
     };

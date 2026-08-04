@@ -53,7 +53,7 @@ Then open the extension's options page and choose a destination.
 
 **Analysis sections.** Tick what the report should cover. Each section has a two-line field: leave it empty to ask the default question, or write your own wording to replace it.
 
-Keep custom questions short. The prompt travels inside the link that opens the agent, and that link has a length the agent will cut off. Non-Latin text costs about nine times more of that length per character, because each character is percent-encoded as three bytes: a page of English questions is roughly 1,500 characters of link, while the same page in Chinese is over 14,000. RiceHub does not currently refuse an over-long prompt, so the symptom is a truncated request rather than an error.
+Keep custom questions short. The prompt travels inside the link that opens the agent, and that link has a length limit. Non-Latin text costs about nine times more of that length per character, because each character is percent-encoded as three bytes: a page of English questions is roughly 1,500 characters of link, while the same page in Chinese is over 14,000. RiceHub refuses a prompt whose link would exceed 7,500 characters and says so on the button, rather than letting the agent receive a request with its last questions missing.
 
 ## Commands
 

@@ -13,11 +13,11 @@ test('manifest has only the required host and permission scope', () => {
   assert.ok(!JSON.stringify(manifest).includes('<all_urls>'));
 });
 
-test('Firefox signing metadata declares a stable ID and no data collection', () => {
+test('Firefox signing metadata declares a stable ID and transmitted page data', () => {
   assert.strictEqual(manifest.browser_specific_settings.gecko.id, 'ricehub@xiangerwu.github.io');
   assert.deepStrictEqual(
     manifest.browser_specific_settings.gecko.data_collection_permissions.required,
-    ['none'],
+    ['browsingActivity', 'websiteContent'],
   );
 });
 

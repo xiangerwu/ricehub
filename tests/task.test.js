@@ -144,11 +144,43 @@ test('sanitizeText strips control characters and hyphen runs', () => {
   assert.strictEqual(task.sanitizeText(12345, 10), '');
 });
 
-test('buildPrompt rejects oversized input rather than truncating silently', () => {
-  assert.throws(
-    () => task.buildPrompt({ owner: 'a', repo: 'b'.repeat(task.MAX_PROMPT_CHARS) }, 'ok'),
-    /size limit/,
+test('buildPrompt measures what is sent, not what was typed', () => {
+  // The prompt travels percent-encoded inside a URL. A Latin character costs one
+  // character there and a Chinese one costs nine, so counting characters bounds English
+  // and lets Chinese through: a page of Chinese questions reached 35,000 characters of
+  // URL while still sitting inside a 5,000 character prompt, and was silently truncated.
+  const sections = Object.fromEntries(
+    task.ANALYSIS_SECTIONS.map(({ id }) => [id, '中'.repeat(200)]),
   );
+  assert.throws(
+    () => task.buildPrompt({ owner: 'a', repo: 'b' }, 'title', {
+      language: 'zh-TW',
+      sectionPrompts: sections,
+    }),
+    /size limit/,
+    'seven Chinese questions of 200 characters must be refused',
+  );
+
+  // The same number of Latin characters is well inside the limit, which is the point:
+  // the limit follows the cost of the text rather than its length.
+  const latin = Object.fromEntries(
+    task.ANALYSIS_SECTIONS.map(({ id }) => [id, 'x'.repeat(200)]),
+  );
+  const prompt = task.buildPrompt({ owner: 'a', repo: 'b' }, 'title', {
+    sectionPrompts: latin,
+  });
+  assert.ok(encodeURIComponent(prompt).length <= task.MAX_ENCODED_CHARS);
+});
+
+test('an ordinary prompt in either language is nowhere near the limit', () => {
+  for (const language of ['en', 'zh-TW']) {
+    const prompt = task.buildPrompt({ owner: 'mdn', repo: 'examples' }, 'mdn/examples', { language });
+    const encoded = encodeURIComponent(prompt).length;
+    assert.ok(
+      encoded < task.MAX_ENCODED_CHARS / 2,
+      `${language} defaults use ${encoded} of ${task.MAX_ENCODED_CHARS}, too close to the limit`,
+    );
+  }
 });
 
 test('buildPrompt includes only selected analysis sections in canonical order', () => {
