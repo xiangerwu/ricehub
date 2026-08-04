@@ -4,7 +4,7 @@
   const Task = root.RiceHubTask || require('./task.js');
   const Button = root.RiceHubButton || require('./button.js');
 
-  function sync(doc, location, onActivate, win, language) {
+  function sync(doc, location, onActivate, win, language, placement) {
     const repo = Task.parseRepo(location.href);
     if (!repo) {
       Button.unmount(doc);
@@ -19,10 +19,10 @@
 
     const parts = Button.createButton(doc, () => onActivate(repo, parts), language);
     parts.button.setAttribute('data-ricehub-repo', repo.canonicalUrl);
-    return Button.mount(doc, parts, repo, win);
+    return Button.mount(doc, parts, repo, win, placement);
   }
 
-  function observe(win, doc, onActivate, { ObserverImpl, getLanguage } = {}) {
+  function observe(win, doc, onActivate, { ObserverImpl, getLanguage, getPlacement } = {}) {
     const Observer = ObserverImpl || win.MutationObserver;
     let lastHref = null;
     const run = () => sync(
@@ -31,6 +31,7 @@
       onActivate,
       win,
       getLanguage ? getLanguage() : Button.DEFAULT_LANGUAGE,
+      getPlacement ? getPlacement() : undefined,
     );
     const runIfMoved = () => {
       if (win.location.href === lastHref) return;

@@ -58,15 +58,15 @@
 
 body {
   margin: 0;
-  padding: 28px 20px 64px;
-  font: 400 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC",
+  padding: 26px 24px 40px;
+  font: 400 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC",
     "PingFang TC", "Microsoft JhengHei", sans-serif;
   color: var(--text);
   background: var(--bg);
 }
 
 main {
-  max-width: 720px;
+  max-width: 1240px;
   margin: 0 auto;
 }
 
@@ -74,12 +74,14 @@ main {
    the artwork's own plum. It is the one place the brand colour is used regardless of the
    viewer's theme, so the page is recognisable before anything is read. */
 .hero {
-  display: flex;
+  /* Three tracks so the mascot sits in the true middle of the banner rather than being
+     pushed to whatever edge the text leaves free. */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   gap: 20px;
   align-items: center;
-  justify-content: space-between;
-  padding: 22px 26px;
-  margin: 0 0 24px;
+  padding: 22px 28px;
+  margin: 0 0 22px;
   overflow: hidden;
   background: linear-gradient(115deg, #372b3b 0%, var(--plum-deep) 45%, #4b3a4a 100%);
   border-radius: var(--radius);
@@ -88,7 +90,7 @@ main {
 
 .hero h1 {
   margin: 0 0 6px;
-  font-size: 25px;
+  font-size: 32px;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--cream);
@@ -97,25 +99,48 @@ main {
 .hero .page-intro {
   max-width: 46ch;
   margin: 0;
-  font-size: 13.5px;
+  font-size: 17px;
   color: var(--cream-dim);
 }
 
 .hero-mark {
   flex: none;
+  width: 200px;
+  height: 200px;
   filter: drop-shadow(0 4px 12px rgb(16 10 18 / 45%));
 }
 
-@media (width <= 520px) {
-  .hero {
-    flex-direction: column-reverse;
-    text-align: center;
-  }
+#settings-form {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.8fr) minmax(430px, 1.55fr) minmax(190px, 0.65fr);
+  gap: 18px;
+  align-items: start;
+}
+
+/* Each column owns its own height. The analysis list used to span two rows, which made
+   the browser share its extra height with the row above it and left a gap under the
+   destination card; stacking the two short cards instead keeps the columns independent. */
+.stack {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.sections-card {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.appearance-card {
+  grid-column: 3;
+  grid-row: 1;
 }
 
 .card {
   padding: 20px;
-  margin: 0 0 16px;
+  margin: 0;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -123,8 +148,8 @@ main {
 }
 
 .card > h2 {
-  margin: 0 0 4px;
-  font-size: 15px;
+  margin: 0 0 6px;
+  font-size: 20px;
   font-weight: 600;
 }
 
@@ -142,7 +167,7 @@ main {
 .card > .hint,
 .field .hint {
   margin: 8px 0 16px;
-  font-size: 13px;
+  font-size: 16px;
   color: var(--text-muted);
 }
 
@@ -152,7 +177,7 @@ main {
 
 .field {
   display: grid;
-  gap: 6px;
+  gap: 7px;
 }
 
 .field + .field {
@@ -165,7 +190,7 @@ label {
 
 code {
   padding: 1px 5px;
-  font-size: 0.92em;
+  font-size: 0.94em;
   background: var(--surface-sunken);
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -177,6 +202,27 @@ input[type="text"] {
   padding: 8px 10px;
   font: inherit;
   color: inherit;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}
+
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--gold);
+}
+
+input[type="color"] {
+  width: 52px;
+  height: 36px;
+  padding: 3px;
+  cursor: pointer;
   background: var(--surface-sunken);
   border: 1px solid var(--border);
   border-radius: 7px;
@@ -211,19 +257,24 @@ legend {
 #analysis-sections {
   display: grid;
   gap: 1px;
-  margin-top: 12px;
+  margin-top: 10px;
   overflow: hidden;
   background: var(--border);
   border: 1px solid var(--border);
   border-radius: 8px;
+  container-type: inline-size;
 }
 
 #analysis-sections label {
   display: grid;
-  grid-template-columns: auto minmax(120px, 150px) 1fr;
-  gap: 12px;
+  grid-template-columns: auto minmax(112px, 140px) 1fr;
+  gap: 10px;
   align-items: center;
-  padding: 10px 12px;
+  padding: 7px 10px;
+  /* Four points down from the page's body size. This block carries seven rows of three
+     controls each, so it is the one place where the page's reading size costs more room
+     than it earns. */
+  font-size: 14px;
   background: var(--surface);
   transition: background 120ms ease;
 }
@@ -248,16 +299,45 @@ legend {
   font-weight: 500;
 }
 
-#analysis-sections input[type="text"] {
-  padding: 6px 8px;
-  font-size: 13px;
+#analysis-sections textarea {
+  width: 100%;
+  padding: 5px 8px;
+  font: inherit;
+  color: inherit;
+  resize: vertical;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: 6px;
 }
 
+#analysis-sections textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+@container (width <= 520px) {
+  #analysis-sections label {
+    grid-template-columns: auto 1fr;
+    row-gap: 6px;
+  }
+
+  #analysis-sections textarea {
+    grid-column: 2;
+  }
+}
+
+/* A full-width bar under the whole form. Sitting in one column left it stranded beside
+   empty space, reading as a loose box rather than as the form's closing action. */
 .actions {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: center;
-  margin-top: 24px;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  justify-content: flex-end;
+  padding-top: 18px;
+  margin: 4px 0 0;
+  border-top: 1px solid var(--border);
 }
 
 button[type="submit"] {
@@ -279,7 +359,7 @@ button[type="submit"]:hover {
 #save-status {
   min-height: 20px;
   margin: 0;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--success);
 }
 
@@ -287,13 +367,42 @@ button[type="submit"]:hover {
   visibility: hidden;
 }
 
-@media (width <= 560px) {
-  #analysis-sections label {
-    grid-template-columns: auto 1fr;
-    row-gap: 8px;
+@media (width <= 900px) {
+  #settings-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  #analysis-sections input[type="text"] {
+  .stack {
+    grid-column: 1;
+  }
+
+  .appearance-card,
+  .actions {
     grid-column: 2;
   }
+
+  .sections-card {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+}
+
+@media (width <= 620px) {
+  .hero {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  #settings-form {
+    grid-template-columns: 1fr;
+  }
+
+  .stack,
+  .appearance-card,
+  .sections-card,
+  .actions {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
 }

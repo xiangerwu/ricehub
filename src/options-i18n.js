@@ -20,6 +20,13 @@
       'language.heading': 'Language',
       'language.hint': 'Applies to both this page and the analysis you ask for.',
       'language.label': 'Language / 語言',
+      'appearance.heading': 'Floating button',
+      'appearance.hint': 'Adjust the button shown on GitHub repository pages.',
+      'appearance.size': 'Size',
+      'appearance.claudeColor': 'Claude Desktop',
+      'appearance.codexColor': 'Codex Desktop',
+      'appearance.customColor': 'Custom HTTPS',
+      'appearance.colorHint': 'The ring around the button shows which agent a click will open, so you can tell before you press it.',
       'sections.heading': 'Analysis sections / 分析項目',
       'sections.hint': 'Tick what the report should cover. Leave a box empty to use the default question, or type your own to ask it your way.',
       'actions.save': 'Save settings',
@@ -46,6 +53,13 @@
       'language.heading': '語言',
       'language.hint': '同時套用到這個頁面和你要求的分析。',
       'language.label': '語言 / Language',
+      'appearance.heading': '懸浮按鈕',
+      'appearance.hint': '調整顯示在 GitHub 儲存庫頁面上的按鈕。',
+      'appearance.size': '大小',
+      'appearance.claudeColor': 'Claude 桌面版',
+      'appearance.codexColor': 'Codex 桌面版',
+      'appearance.customColor': '自訂 HTTPS',
+      'appearance.colorHint': '按鈕外圈的顏色代表按下去會開哪一個代理，不用點進設定就看得出來。',
       'sections.heading': '分析項目 / Analysis sections',
       'sections.hint': '勾選報告要涵蓋的項目。輸入框留空就用預設問法，想換個問法就自己填。',
       'actions.save': '儲存設定',
@@ -119,6 +133,6 @@
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = api;
   } else {
-    start(root.document, root.browser).catch(() => {});
+    start(root.document, root.browser || root.chrome).catch(() => {});
   }
 }(typeof globalThis !== 'undefined' ? globalThis : this));

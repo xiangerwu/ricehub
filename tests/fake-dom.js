@@ -107,20 +107,18 @@ class FakeDocument {
     return this.selectorTargets.get(selector) || null;
   }
 
-  /** Supports `#id` only, which is all the production code asks for. */
+  /** Supports `#id` and `tag[attr="value"]`, which is all the production code asks for. */
   querySelectorAll(selector) {
-    const nameMatch = /^input\[name="([^"]+)"\]$/.exec(selector);
-    if (nameMatch) {
-      return Array.from(this.body.walk()).filter(
-        (node) => node.tagName === 'INPUT' && node.name === nameMatch[1],
-      );
-    }
-    const dataMatch = /^input\[data-section-id="([^"]+)"\]$/.exec(selector);
-    if (dataMatch) {
-      return Array.from(this.body.walk()).filter(
-        (node) => node.tagName === 'INPUT'
-          && node.getAttribute('data-section-id') === dataMatch[1],
-      );
+    // The tag name is optional, exactly as in a real document. Requiring it here once
+    // hid a production selector that had stopped matching its own element.
+    const attrMatch = /^([a-z]*)\[([a-z-]+)="([^"]+)"\]$/.exec(selector);
+    if (attrMatch) {
+      const [, tagName, attribute, value] = attrMatch;
+      return Array.from(this.body.walk()).filter((node) => {
+        if (tagName && node.tagName !== tagName.toUpperCase()) return false;
+        const actual = attribute === 'name' ? node.name : node.getAttribute(attribute);
+        return actual === value;
+      });
     }
     if (typeof selector !== 'string' || !selector.startsWith('#')) {
       const target = this.selectorTargets.get(selector);

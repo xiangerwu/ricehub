@@ -98,10 +98,18 @@ test('the stylesheet places the enlarged icon-only control on the left', () => {
   const icon = fs.readFileSync(
     path.join(__dirname, '..', 'src', 'icons', 'fab', 'ricehub-fab-256.png'),
   );
-  assert.match(css, /\.ricehub-panel\s*\{[^}]*left:\s*24px;[^}]*width:\s*88px;[^}]*height:\s*88px;/s);
-  assert.match(css, /\.ricehub-analyze-button\s*\{[^}]*width:\s*88px;[^}]*height:\s*88px;/s);
+  assert.match(css, /\.ricehub-panel\s*\{[^}]*bottom:\s*24px;[^}]*width:\s*var\(--ricehub-button-size,\s*88px\);[^}]*height:\s*var\(--ricehub-button-size,\s*88px\);/s);
+  assert.match(css, /\.ricehub-analyze-button\s*\{[^}]*width:\s*var\(--ricehub-button-size,\s*88px\);[^}]*height:\s*var\(--ricehub-button-size,\s*88px\);/s);
+  // No border at all: the artwork supplies its own ring, so a drawn one doubles it.
+  assert.match(css, /\.ricehub-analyze-button\s*\{[^}]*border:\s*0;/s);
+  // The fill is the destination colour; failure is the only state drawn on top of it.
+  assert.match(css, /\.ricehub-analyze-button\s*\{[^}]*background:\s*var\(--ricehub-button-background,/s);
+  assert.match(css, /\[data-ricehub-state="failed"\]\s*\{[^}]*box-shadow:\s*0 0 0 3px #cf222e;/s);
   assert.match(css, /\.ricehub-analyze-button::before\s*\{/);
-  assert.match(css, /\.ricehub-analyze-button::before\s*\{[^}]*width:\s*80px;[^}]*height:\s*80px;/s);
+  // The image fills the control. An inset leaves a gap that the button's own background
+  // shows through, and that gap reads as a second border beside the configurable one.
+  // Inset so the destination colour reads as a ring rather than being hidden by the art.
+  assert.match(css, /\.ricehub-analyze-button::before\s*\{[^}]*width:\s*calc\(100% - 10px\);/s);
   assert.match(css, /url\("icons\/fab\/ricehub-fab-256\.png"\)/);
   assert.match(css, /background-size:\s*contain;/);
   assert.match(css, /background-position:\s*center;/);

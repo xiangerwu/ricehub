@@ -28,15 +28,17 @@
       const label = doc.createElement('label');
       const checkbox = doc.createElement('input');
       const text = doc.createElement('span');
-      const prompt = doc.createElement('input');
+      const prompt = doc.createElement('textarea');
       checkbox.type = 'checkbox';
       checkbox.name = 'section';
       checkbox.value = section.id;
       checkbox.checked = selected.has(section.id);
       text.id = `section-label-${section.id}`;
       text.textContent = section.labels[settings.language];
-      prompt.type = 'text';
       prompt.name = 'section-prompt';
+      // Two lines: the default questions run past one, so a single-line field hid most
+      // of the wording it was showing the user.
+      prompt.rows = 2;
       prompt.value = settings.sectionPrompts[section.id] || '';
       prompt.placeholder = section.prompts[settings.language];
       prompt.setAttribute('data-section-id', section.id);
@@ -51,7 +53,7 @@
     const language = doc.getElementById('language').value;
     for (const section of Task.ANALYSIS_SECTIONS) {
       doc.getElementById(`section-label-${section.id}`).textContent = section.labels[language];
-      doc.querySelector(`input[data-section-id="${section.id}"]`).placeholder = section.prompts[language];
+      doc.querySelector(`[data-section-id="${section.id}"]`).placeholder = section.prompts[language];
     }
   }
 
@@ -61,7 +63,7 @@
       .map((input) => input.value);
     if (!sectionIds.length) throw new Error('Select at least one analysis section.');
     const sectionPrompts = {};
-    for (const input of doc.querySelectorAll('input[name="section-prompt"]')) {
+    for (const input of doc.querySelectorAll('[name="section-prompt"]')) {
       const value = input.value.trim();
       if (value) sectionPrompts[input.getAttribute('data-section-id')] = value;
     }
@@ -77,7 +79,16 @@
       language: doc.getElementById('language').value,
       sectionIds,
       sectionPrompts,
+      buttonSize: doc.getElementById('button-size').value,
+      claudeColor: doc.getElementById('claude-color').value,
+      codexColor: doc.getElementById('codex-color').value,
+      customColor: doc.getElementById('custom-color').value,
     };
+  }
+
+  function updateButtonSizeValue(doc) {
+    const value = doc.getElementById('button-size').value;
+    doc.getElementById('button-size-value').textContent = `${value} px`;
   }
 
   function updateCustomField(doc) {
@@ -90,11 +101,17 @@
     doc.getElementById('destination').value = current.destination;
     doc.getElementById('custom-template').value = current.customTemplate;
     doc.getElementById('language').value = current.language;
+    doc.getElementById('button-size').value = String(current.buttonSize);
+    doc.getElementById('claude-color').value = current.claudeColor;
+    doc.getElementById('codex-color').value = current.codexColor;
+    doc.getElementById('custom-color').value = current.customColor;
+    updateButtonSizeValue(doc);
     renderSections(doc, current);
     updateCustomField(doc);
 
     doc.getElementById('destination').addEventListener('change', () => updateCustomField(doc));
     doc.getElementById('language').addEventListener('change', () => updateSectionLanguage(doc));
+    doc.getElementById('button-size').addEventListener('input', () => updateButtonSizeValue(doc));
     doc.getElementById('settings-form').addEventListener('submit', async (event) => {
       event.preventDefault();
       const status = doc.getElementById('save-status');
@@ -112,11 +129,18 @@
     });
   }
 
-  const api = { renderSections, updateSectionLanguage, readForm, updateCustomField, init };
+  const api = {
+    renderSections,
+    updateSectionLanguage,
+    readForm,
+    updateButtonSizeValue,
+    updateCustomField,
+    init,
+  };
   root.RiceHubOptions = api;
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = api;
   } else {
-    init(root.document, root.browser).catch(() => {});
+    init(root.document, root.browser || root.chrome).catch(() => {});
   }
 }(typeof globalThis !== 'undefined' ? globalThis : this));

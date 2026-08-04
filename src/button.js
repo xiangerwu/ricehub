@@ -110,10 +110,20 @@
     return parts;
   }
 
-  function makeDraggable(parts, win) {
+  /**
+   * `onSettled` is called with the panel's final position after a drag or a key press,
+   * never during one: saving on every pointermove would write to storage dozens of
+   * times per second for a value nobody reads until the page reloads.
+   */
+  function makeDraggable(parts, win, onSettled) {
     if (!win || !parts.panel || !parts.button) return;
     const { panel, button, interaction } = parts;
     let drag = null;
+    const settle = () => {
+      if (typeof onSettled !== 'function') return;
+      const rect = panel.getBoundingClientRect();
+      onSettled({ left: Math.round(rect.left), top: Math.round(rect.top) });
+    };
 
     const position = (left, top) => {
       const width = panel.offsetWidth || 0;
@@ -152,7 +162,10 @@
     });
     const stop = (event) => {
       if (!drag || (event && event.pointerId !== drag.pointerId)) return;
-      if (drag.moved) interaction.suppressActivation = true;
+      if (drag.moved) {
+        interaction.suppressActivation = true;
+        settle();
+      }
       drag = null;
     };
     button.addEventListener('pointerup', stop);
@@ -165,8 +178,21 @@
       }
       const rect = panel.getBoundingClientRect();
       position(rect.left + delta[0], rect.top + delta[1]);
+      settle();
       if (event.preventDefault) event.preventDefault();
     });
+  }
+
+  /** Puts the panel back where the user last left it. */
+  function applyPosition(parts, position) {
+    if (!parts || !parts.panel || !position) return false;
+    const { left, top } = position;
+    if (!Number.isFinite(left) || !Number.isFinite(top)) return false;
+    parts.panel.style.left = `${left}px`;
+    parts.panel.style.top = `${top}px`;
+    parts.panel.style.right = 'auto';
+    parts.panel.style.bottom = 'auto';
+    return true;
   }
 
   function findExisting(doc) {
@@ -205,13 +231,14 @@
     return setState(parts, parts.button.getAttribute('data-ricehub-state') || STATE.IDLE);
   }
 
-  function mount(doc, parts, repo, win) {
+  function mount(doc, parts, repo, win, { position, onSettled } = {}) {
     const existing = findExisting(doc);
     if (existing) return existing.button;
     purge(doc);
     if (!findRepositoryMarker(doc, repo)) return null;
     doc.body.append(parts.panel);
-    makeDraggable(parts, win);
+    applyPosition(parts, position);
+    makeDraggable(parts, win, onSettled);
     return parts.button;
   }
 
@@ -228,6 +255,7 @@
     isOurs,
     purge,
     createButton,
+    applyPosition,
     makeDraggable,
     setState,
     setLanguage,

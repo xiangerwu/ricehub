@@ -1,10 +1,15 @@
 .ricehub-panel {
   position: fixed;
   z-index: 2147483647;
-  top: 96px;
-  left: 24px;
-  width: 88px;
-  height: 88px;
+  /* Bottom right by default. Top left sat on GitHub's own navigation, and a control
+     that covers the page it decorates is worse than one that is slightly out of the way.
+     A dragged position is remembered, so this is only where it starts. */
+  top: auto;
+  right: 24px;
+  bottom: 24px;
+  left: auto;
+  width: var(--ricehub-button-size, 88px);
+  height: var(--ricehub-button-size, 88px);
   color: #fff;
   background: transparent;
   border-radius: 50%;
@@ -14,16 +19,21 @@
 .ricehub-analyze-button {
   display: grid;
   box-sizing: border-box;
-  width: 88px;
-  height: 88px;
+  width: var(--ricehub-button-size, 88px);
+  height: var(--ricehub-button-size, 88px);
   padding: 0;
   place-items: center;
   color: #fff;
   cursor: grab;
   touch-action: none;
   user-select: none;
-  background: #1f883d;
-  border: 1px solid rgb(255 255 255 / 35%);
+
+  /* The fill shows as a ring around the artwork, and it stands for the destination a
+     click would open. The earlier green ring looked wrong because it was a fixed colour
+     that meant nothing; this one is chosen by the user and carries the one fact the
+     button cannot otherwise show. */
+  background: var(--ricehub-button-background, #d97757);
+  border: 0;
   border-radius: 50%;
   -webkit-user-drag: none;
 }
@@ -33,9 +43,10 @@
   outline-offset: 2px;
 }
 
+/* Inset just enough for the destination colour to read as a ring. */
 .ricehub-analyze-button::before {
-  width: 80px;
-  height: 80px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
   content: "";
   background-image: url("icons/fab/ricehub-fab-256.png");
   background-repeat: no-repeat;
@@ -45,19 +56,18 @@
 }
 
 .ricehub-analyze-button:hover {
-  background: #1a7f37;
+  filter: brightness(1.08);
 }
 
 .ricehub-analyze-button:active {
   cursor: grabbing;
 }
 
-.ricehub-analyze-button[data-ricehub-state="requested"] {
-  background: #0969da;
-}
-
+/* Failure is the one outcome the page cannot show by itself: a tab that never opened
+   looks the same as one the user has not looked at yet. It is drawn outside the control
+   so it never competes with the destination colour. */
 .ricehub-analyze-button[data-ricehub-state="failed"] {
-  background: #cf222e;
+  box-shadow: 0 0 0 3px #cf222e;
 }
 
 .ricehub-visually-hidden {

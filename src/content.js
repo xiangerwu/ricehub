@@ -56,6 +56,13 @@
     };
   }
 
+  function applyAppearance(doc, settings) {
+    const style = doc && doc.documentElement && doc.documentElement.style;
+    if (!style || typeof style.setProperty !== 'function') return;
+    style.setProperty('--ricehub-button-size', `${settings.buttonSize}px`);
+    style.setProperty('--ricehub-button-background', Settings.destinationColor(settings));
+  }
+
   async function start(win, doc, browserApi, { ObserverImpl } = {}) {
     let current;
     try {
@@ -63,10 +70,12 @@
     } catch {
       current = Settings.normalizeSettings();
     }
+    applyAppearance(doc, current);
 
     const onStorageChanged = (changes, areaName) => {
       if (areaName !== 'local' || !changes[Settings.STORAGE_KEY]) return;
       current = Settings.normalizeSettings(changes[Settings.STORAGE_KEY].newValue);
+      applyAppearance(doc, current);
       const parts = Button.findExisting(doc);
       if (parts) Button.setLanguage(parts, current.language);
     };
@@ -76,7 +85,19 @@
       win,
       doc,
       createActivation(win, doc, () => current),
-      { ObserverImpl, getLanguage: () => current.language },
+      {
+        ObserverImpl,
+        getLanguage: () => current.language,
+        getPlacement: () => ({
+          position: current.buttonPosition,
+          // Written only once a drag or key press settles, and merged into the settings
+          // already in hand so saving a position cannot discard anything else.
+          onSettled: (buttonPosition) => {
+            current = { ...current, buttonPosition };
+            Settings.save(browserApi.storage.local, current).catch(() => {});
+          },
+        }),
+      },
     );
     return () => {
       stopMount();
@@ -84,11 +105,11 @@
     };
   }
 
-  const api = { requestOpen, createActivation, start };
+  const api = { requestOpen, createActivation, applyAppearance, start };
   root.RiceHubContent = api;
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = api;
   } else {
-    start(root, root.document, root.browser).catch(() => {});
+    start(root, root.document, root.browser || root.chrome).catch(() => {});
   }
 }(typeof globalThis !== 'undefined' ? globalThis : this));

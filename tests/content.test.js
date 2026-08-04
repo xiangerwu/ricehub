@@ -99,18 +99,30 @@ test('stored language localizes the panel and live storage changes update it', a
   FakeObserver.reset();
   const doc = new FakeDocument(button.REPOSITORY_MARKER_SELECTORS);
   const win = new FakeWindow(REPO);
-  const browserApi = browserStub({ language: 'zh-TW' });
+  const cssVariables = new Map();
+  doc.documentElement = {
+    style: { setProperty(name, value) { cssVariables.set(name, value); } },
+  };
+  const browserApi = browserStub({
+    language: 'zh-TW', buttonSize: 112, destination: 'codex', codexColor: '#123456',
+  });
   const stop = await content.start(win, doc, browserApi, { ObserverImpl: FakeObserver });
   const action = doc.getElementById(button.BUTTON_ID);
 
   assert.strictEqual(action.textContent, '');
   assert.ok(action.getAttribute('aria-label').includes(button.LABELS['zh-TW'][button.STATE.IDLE]));
+  assert.strictEqual(cssVariables.get('--ricehub-button-size'), '112px');
+  assert.strictEqual(cssVariables.get('--ricehub-button-background'), '#123456');
   for (const listener of browserApi.listeners) {
     listener({
-      [settings.STORAGE_KEY]: { newValue: { language: 'en' } },
+      [settings.STORAGE_KEY]: {
+        newValue: { language: 'en', buttonSize: 64, destination: 'custom', customColor: '#abcdef' },
+      },
     }, 'local');
   }
   assert.ok(action.getAttribute('aria-label').includes(button.LABELS.en[button.STATE.IDLE]));
+  assert.strictEqual(cssVariables.get('--ricehub-button-size'), '64px');
+  assert.strictEqual(cssVariables.get('--ricehub-button-background'), '#abcdef');
   stop();
 });
 

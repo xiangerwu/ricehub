@@ -95,8 +95,10 @@ test('an unknown language falls back to English rather than blanking the page', 
 test('markup keeps the hooks options.js depends on', () => {
   for (const hook of [
     'id="settings-form"', 'id="destination"', 'id="custom-template"',
-    'id="language"', 'id="analysis-sections"', 'id="save-status"',
-    'name="destination"', 'name="customTemplate"',
+    'id="language"', 'id="button-size"', 'id="claude-color"', 'id="codex-color"', 'id="custom-color"',
+    'id="button-size-value"', 'id="analysis-sections"', 'id="save-status"',
+    'name="destination"', 'name="customTemplate"', 'name="buttonSize"',
+    'name="claudeColor"', 'name="codexColor"', 'name="customColor"',
   ]) {
     assert.ok(HTML.includes(hook), `markup lost ${hook}`);
   }
