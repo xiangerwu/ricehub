@@ -27,6 +27,5 @@ aidd_docs/
 
 # Source and upload-only artwork; keep the runtime logo and 256px FAB
 docs/branding/ricehub-fab-master.png
-docs/branding/ricehub-social-preview.png
 docs/branding/ricehub-social-preview-zh-TW.png
 src/icons/fab/ricehub-fab-128.png
