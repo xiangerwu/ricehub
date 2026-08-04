@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "RiceHub",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "minimum_chrome_version": "95",
   "description": "Builds a structured analysis prompt from the GitHub repository you are viewing and hands it to your chosen AI agent.",
   "permissions": [

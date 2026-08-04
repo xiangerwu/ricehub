@@ -18,9 +18,9 @@ RiceHub does not fetch repository content, classify repository visibility, submi
 |---|---|
 | Firefox | Verified on a real profile |
 | Chrome 95+ | Built for, not yet verified in the browser |
-| Edge | Built for, not yet verified in the browser |
+| Edge | Verified: installed, settings, and the panel on GitHub |
 
-Chrome and Edge are listed as built for rather than supported because nobody has loaded RiceHub in either browser and worked through it. Until that happens, treat them as experimental.
+Chrome is listed as built for rather than supported because nobody has loaded RiceHub in it and worked through it. Until that happens, treat it as experimental. Edge was verified the hard way: the floating button's artwork did not load there, which is how the extension learned that Chromium resolves an injected stylesheet's relative URLs differently from Firefox.
 
 ## Install
 
@@ -52,6 +52,8 @@ Then open the extension's options page and choose a destination.
 **Floating button.** Size, and one colour per destination. The ring around the button is the colour of the destination a click would open, so which agent you are about to use is visible without opening this page. Drag the button anywhere on the page and it stays there; arrow keys nudge it. It starts in the bottom left, the corner of a repository page that carries the least content.
 
 **Analysis sections.** Tick what the report should cover. Each section has a two-line field: leave it empty to ask the default question, or write your own wording to replace it.
+
+Keep custom questions short. The prompt travels inside the link that opens the agent, and that link has a length the agent will cut off. Non-Latin text costs about nine times more of that length per character, because each character is percent-encoded as three bytes: a page of English questions is roughly 1,500 characters of link, while the same page in Chinese is over 14,000. RiceHub does not currently refuse an over-long prompt, so the symptom is a truncated request rather than an error.
 
 ## Commands
 
@@ -98,6 +100,7 @@ For Codex, [`src/button.js`](src/button.js) exposes the generated link only duri
 
 - Manifest V3, Windows-first validation, no build step.
 - Static content script on `https://github.com/*`; no `<all_urls>`.
+- One web-accessible resource, the floating button's image, exposed to `https://github.com/*` only. Chromium needs it; Firefox does not.
 - `storage` holds configuration only, never credentials, repository URLs, prompts, or results.
 - Built-in desktop schemes are fixed; custom destinations are HTTPS only.
 - Repository metadata and content are untrusted prompt data.

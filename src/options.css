@@ -310,6 +310,16 @@ legend {
   border-radius: 6px;
 }
 
+/* A caution, not an error: nothing is wrong yet, but the limit is easy to reach without
+   noticing and the failure it causes is silent truncation. */
+.hint.warning {
+  padding: 9px 11px;
+  margin-top: 12px;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  background: var(--surface-sunken);
+}
+
 #analysis-sections textarea::placeholder {
   color: var(--text-muted);
   opacity: 1;

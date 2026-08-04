@@ -5,17 +5,15 @@ This directory is separate from the extension ZIP. It contains listing material 
 ## Ready to Upload
 
 - `icon-128.png`: the required 128×128 PNG extension icon. The same icon remains inside the ZIP at `src/icons/icon-128.png` because the manifest references it.
+- `screenshot-github-1280x800.png`: an actual 1280×800 Edge screenshot showing RiceHub on a GitHub repository page.
+- `screenshot-settings-1280x800.png`: an actual 1280×800 Traditional Chinese screenshot of the RiceHub settings page.
+- `promo-small-440x280.png`: the required 440×280 small promotional image, scaled from the existing social preview without generative edits.
 
 ## Copy into the Dashboard
 
 - `listing-copy.md`: proposed English and Traditional Chinese listing text, the single-purpose statement, permission justification, and data-handling disclosure.
-- `privacy-policy.md`: a policy draft. Publish it at a public HTTPS URL and replace the contact placeholder before submitting its URL.
+- `privacy-policy.md`: a policy draft with a public contact link. Publish it at a public HTTPS URL before submitting its URL.
 
-## Still Required
+The existing `docs/branding/ricehub-social-preview*.png` files are 1280×640, so they do not meet either screenshot dimension and must not be uploaded in those fields. The 512×512 logo and FAB master are source artwork, not store-ready assets. Additional actual-product screenshots and a 1400×560 marquee image are optional.
 
-- `promo-small-440x280.png`: required promotional image.
-- At least one actual-product screenshot: 1280×800 or 640×400 PNG/JPEG.
-
-Capture screenshots only after the final Chrome smoke test. The existing `docs/branding/ricehub-social-preview*.png` files are 1280×640, so they do not meet either required dimension and must not be uploaded in those fields. The 512×512 logo and FAB master are source artwork, not store-ready assets. A 1400×560 marquee image is optional.
-
-The release ZIP is generated separately at `web-ext-artifacts/ricehub-0.1.1.zip`. Do not add this directory, tests, repository documentation, or development files to that ZIP.
+The release ZIP is generated separately at `web-ext-artifacts/ricehub-0.1.2.zip`. Do not add this directory, tests, repository documentation, or development files to that ZIP.
