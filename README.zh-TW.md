@@ -1,4 +1,4 @@
-<img src="docs/branding/ricehub-social-preview-zh-TW.png" alt="RiceHub 品牌預覽">
+<img src="docs/branding/ricehub-social-preview.png" alt="RiceHub 品牌預覽">
 
 # RiceHub
 
