@@ -1,0 +1,32 @@
+# The project has no dependencies and no build step; these entries exist so that a
+# stray install or an editor does not end up in the history.
+node_modules/
+package-lock.json
+
+# Build and packaging output
+*.xpi
+*.zip
+web-ext-artifacts/
+
+# Local environment
+.env
+.env.*
+
+# Editor and OS noise
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local agent instructions and development evidence
+AGENTS.md
+aidd_docs/
+.codebase-memory/
+
+# Source and upload-only artwork; keep the runtime logo and 256px FAB
+docs/branding/ricehub-fab-master.png
+docs/branding/ricehub-social-preview.png
+docs/branding/ricehub-social-preview-zh-TW.png
+src/icons/fab/ricehub-fab-128.png

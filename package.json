@@ -1,0 +1,9 @@
+{
+  "name": "ricehub",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Firefox extension that hands a GitHub repository to an AI agent in one click.",
+  "scripts": {
+    "test": "node --test"
+  }
+}

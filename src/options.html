@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RiceHub settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="hero-text">
+        <h1 data-i18n="page.title">RiceHub settings</h1>
+        <p class="page-intro" data-i18n="page.intro">
+          Choose where a repository analysis opens, and what the agent is asked to cover.
+        </p>
+      </div>
+      <img class="hero-mark" src="icons/fab/ricehub-fab-256.png" alt="" width="96" height="96">
+    </header>
+
+    <form id="settings-form">
+      <section class="card">
+        <h2 data-i18n="destination.heading">Destination</h2>
+        <p class="hint" data-i18n="destination.hint">
+          Where the prepared prompt opens. The prompt is filled in for you; you still send it yourself.
+        </p>
+
+        <div class="field">
+          <label for="destination" data-i18n="destination.label">Agent</label>
+          <select id="destination" name="destination">
+            <option value="claude">Claude Desktop</option>
+            <option value="codex">Codex Desktop</option>
+            <option value="custom" data-i18n="destination.custom">Custom HTTPS URL</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="custom-template" data-i18n="custom.label">Custom URL template</label>
+          <input id="custom-template" name="customTemplate" type="text" inputmode="url"
+            autocomplete="off" spellcheck="false"
+            placeholder="https://example.com/new?prompt={prompt}">
+          <p class="hint" data-i18n="custom.hint">
+            Used only when the agent above is Custom. Must be HTTPS and contain {prompt} exactly once.
+          </p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 data-i18n="language.heading">Language</h2>
+        <p class="hint" data-i18n="language.hint">Applies to both this page and the analysis you ask for.</p>
+
+        <div class="field">
+          <label for="language" data-i18n="language.label">Language / 語言</label>
+          <select id="language" name="language">
+            <option value="zh-TW">中文</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card">
+        <fieldset>
+          <legend><h2 data-i18n="sections.heading">Analysis sections / 分析項目</h2></legend>
+          <p class="hint" data-i18n="sections.hint">
+            Tick what the report should cover. Leave a box empty to use the default question,
+            or type your own to ask it your way.
+          </p>
+          <div id="analysis-sections"></div>
+        </fieldset>
+      </section>
+
+      <div class="actions">
+        <button type="submit" data-i18n="actions.save">Save settings</button>
+        <p id="save-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </main>
+
+  <script src="task.js"></script>
+  <script src="destinations.js"></script>
+  <script src="settings.js"></script>
+  <script src="options.js"></script>
+  <script src="options-i18n.js"></script>
+</body>
+</html>

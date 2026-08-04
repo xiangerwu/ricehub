@@ -1,0 +1,73 @@
+.ricehub-panel {
+  position: fixed;
+  z-index: 2147483647;
+  top: 96px;
+  left: 24px;
+  width: 88px;
+  height: 88px;
+  color: #fff;
+  background: transparent;
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgb(140 149 159 / 25%);
+}
+
+.ricehub-analyze-button {
+  display: grid;
+  box-sizing: border-box;
+  width: 88px;
+  height: 88px;
+  padding: 0;
+  place-items: center;
+  color: #fff;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  background: #1f883d;
+  border: 1px solid rgb(255 255 255 / 35%);
+  border-radius: 50%;
+  -webkit-user-drag: none;
+}
+
+.ricehub-analyze-button:focus-visible {
+  outline: 2px solid #0969da;
+  outline-offset: 2px;
+}
+
+.ricehub-analyze-button::before {
+  width: 80px;
+  height: 80px;
+  content: "";
+  background-image: url("icons/fab/ricehub-fab-256.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border-radius: 50%;
+}
+
+.ricehub-analyze-button:hover {
+  background: #1a7f37;
+}
+
+.ricehub-analyze-button:active {
+  cursor: grabbing;
+}
+
+.ricehub-analyze-button[data-ricehub-state="requested"] {
+  background: #0969da;
+}
+
+.ricehub-analyze-button[data-ricehub-state="failed"] {
+  background: #cf222e;
+}
+
+.ricehub-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
