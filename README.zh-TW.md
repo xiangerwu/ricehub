@@ -26,7 +26,15 @@ RiceHub 只會填入提示詞，不會替你送出。你可以先在代理中閱
 
 ## 安裝
 
-RiceHub 目前從此儲存庫安裝。
+**從瀏覽器商店安裝**
+
+| 瀏覽器 | 商店 | 狀態 |
+| --- | --- | --- |
+| Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/hjhgaaebgogmnekbdmlokdinnbdnmbbl) | 已上架 |
+| Chrome | Chrome 線上應用程式商店 | 尚未送審 |
+| Firefox | Firefox Add-ons（AMO） | 尚未送審 |
+
+**從此儲存庫安裝**
 
 **Firefox**
 
