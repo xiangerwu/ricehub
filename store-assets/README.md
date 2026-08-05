@@ -20,4 +20,4 @@ original. Regenerate rather than upscale a smaller copy.
 
 The existing `docs/branding/ricehub-social-preview*.png` files are 1280×640, so they do not meet either screenshot dimension and must not be uploaded in those fields. The 512×512 logo and FAB master are source artwork, not store-ready assets. Additional actual-product screenshots and a 1400×560 marquee image are optional.
 
-The release ZIP is generated separately at `web-ext-artifacts/ricehub-1.0.0.zip`. Do not add this directory, tests, repository documentation, or development files to that ZIP.
+The release ZIP is generated separately at `web-ext-artifacts/ricehub-<version>.zip`. Do not add this directory, tests, repository documentation, or development files to that ZIP.
