@@ -1,6 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "RiceHub",
+  "name": "__MSG_extensionName__",
+  "default_locale": "en",
   "version": "1.0.0",
   "minimum_chrome_version": "95",
   "browser_specific_settings": {
@@ -14,7 +15,7 @@
       }
     }
   },
-  "description": "Builds a structured analysis prompt from the GitHub repository you are viewing and hands it to your chosen AI agent.",
+  "description": "__MSG_extensionDescription__",
   "permissions": [
     "storage"
   ],

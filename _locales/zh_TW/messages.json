@@ -1,0 +1,8 @@
+{
+  "extensionName": {
+    "message": "RiceHub"
+  },
+  "extensionDescription": {
+    "message": "從你正在瀏覽的 GitHub 儲存庫建立結構化分析提示詞，並交給你選擇的 AI 代理。"
+  }
+}

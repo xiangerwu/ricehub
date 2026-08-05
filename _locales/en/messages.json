@@ -1,0 +1,8 @@
+{
+  "extensionName": {
+    "message": "RiceHub"
+  },
+  "extensionDescription": {
+    "message": "Builds a structured analysis prompt from the GitHub repository you are viewing and hands it to your chosen AI agent."
+  }
+}
