@@ -31,7 +31,7 @@ The prompt contains the repository's canonical URL, page title, preferred langua
 | Browser | Store | Status |
 | --- | --- | --- |
 | Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/hjhgaaebgogmnekbdmlokdinnbdnmbbl) | Published |
-| Chrome | Chrome Web Store | Not submitted yet |
+| Chrome | [Chrome Web Store](https://chromewebstore.google.com/detail/ricehub/igkilhaimikfbhdpfgbcclbookfbfndf) | Published |
 | Firefox | Firefox Add-ons (AMO) | Not submitted yet |
 
 **From this repository**
