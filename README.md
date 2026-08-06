@@ -32,7 +32,7 @@ The prompt contains the repository's canonical URL, page title, preferred langua
 | --- | --- | --- |
 | Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/hjhgaaebgogmnekbdmlokdinnbdnmbbl) | Published |
 | Chrome | [Chrome Web Store](https://chromewebstore.google.com/detail/ricehub/igkilhaimikfbhdpfgbcclbookfbfndf) | Published |
-| Firefox | Firefox Add-ons (AMO) | Not submitted yet |
+| Firefox | Firefox Add-ons (AMO) | In review |
 
 **From this repository**
 
@@ -50,7 +50,7 @@ Firefox removes temporary add-ons when the browser closes.
 2. Enable **Developer mode**.
 3. Choose **Load unpacked** and select this repository folder.
 
-After installation, open the extension settings and choose a destination. Firefox and Edge have been verified manually; Chrome support is implemented but still needs browser verification.
+After installation, open the extension settings and choose a destination. Firefox and Edge have been verified manually; the Chrome build is published but has not been tested in Chrome itself.
 
 ## Settings
 

@@ -32,7 +32,7 @@ RiceHub 只會填入提示詞，不會替你送出。你可以先在代理中閱
 | --- | --- | --- |
 | Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/hjhgaaebgogmnekbdmlokdinnbdnmbbl) | 已上架 |
 | Chrome | [Chrome 線上應用程式商店](https://chromewebstore.google.com/detail/ricehub/igkilhaimikfbhdpfgbcclbookfbfndf) | 已上架 |
-| Firefox | Firefox Add-ons（AMO） | 尚未送審 |
+| Firefox | Firefox Add-ons（AMO） | 審核中 |
 
 **從此儲存庫安裝**
 
@@ -50,7 +50,7 @@ Firefox 關閉後會移除臨時附加元件。
 2. 啟用 **開發人員模式**。
 3. 選擇 **載入未封裝項目**，再選取此儲存庫資料夾。
 
-安裝後，開啟擴充功能設定並選擇目的地。Firefox 與 Edge 已完成人工驗證；Chrome 支援已實作，但仍待瀏覽器實測。
+安裝後，開啟擴充功能設定並選擇目的地。Firefox 與 Edge 已完成人工驗證；Chrome 版本已上架，但尚未在 Chrome 實測。
 
 ## 設定
 
