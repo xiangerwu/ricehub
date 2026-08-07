@@ -32,7 +32,7 @@ RiceHub 只會填入提示詞，不會替你送出。你可以先在代理中閱
 | --- | --- | --- |
 | Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/hjhgaaebgogmnekbdmlokdinnbdnmbbl) | 已上架 |
 | Chrome | [Chrome 線上應用程式商店](https://chromewebstore.google.com/detail/ricehub/igkilhaimikfbhdpfgbcclbookfbfndf) | 已上架 |
-| Firefox | Firefox Add-ons（AMO） | 審核中 |
+| Firefox | [Firefox Add-ons](https://addons.mozilla.org/addon/ricehub/) | 已上架 |
 
 **從此儲存庫安裝**
 

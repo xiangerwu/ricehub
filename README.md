@@ -32,7 +32,7 @@ The prompt contains the repository's canonical URL, page title, preferred langua
 | --- | --- | --- |
 | Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/hjhgaaebgogmnekbdmlokdinnbdnmbbl) | Published |
 | Chrome | [Chrome Web Store](https://chromewebstore.google.com/detail/ricehub/igkilhaimikfbhdpfgbcclbookfbfndf) | Published |
-| Firefox | Firefox Add-ons (AMO) | In review |
+| Firefox | [Firefox Add-ons](https://addons.mozilla.org/addon/ricehub/) | Published |
 
 **From this repository**
 
