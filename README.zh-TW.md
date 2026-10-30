@@ -4,6 +4,12 @@
 
 **繁體中文** · [English](README.md)
 
+[![授權條款：MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue.svg)](manifest.json)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/igkilhaimikfbhdpfgbcclbookfbfndf?label=Chrome)](https://chromewebstore.google.com/detail/ricehub/igkilhaimikfbhdpfgbcclbookfbfndf)
+[![Firefox Add-ons](https://img.shields.io/amo/v/ricehub?label=Firefox)](https://addons.mozilla.org/addon/ricehub/)
+[![Edge Add-ons](https://img.shields.io/badge/Edge-Add--ons-blue.svg)](https://microsoftedge.microsoft.com/addons/detail/hjhgaaebgogmnekbdmlokdinnbdnmbbl)
+
 RiceHub 是一款協助你用 AI 代理了解 GitHub 儲存庫的瀏覽器擴充功能。在儲存庫頁面按下 RiceHub 懸浮按鈕，它會準備一份聚焦的分析提示詞，並在 Claude Desktop、Codex Desktop 或自訂 HTTPS 目的地中開啟。
 
 RiceHub 只會填入提示詞，不會替你送出。你可以先在代理中閱讀或修改內容，確認後再自行送出。

@@ -4,6 +4,12 @@
 
 **English** · [繁體中文](README.zh-TW.md)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue.svg)](manifest.json)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/igkilhaimikfbhdpfgbcclbookfbfndf?label=Chrome)](https://chromewebstore.google.com/detail/ricehub/igkilhaimikfbhdpfgbcclbookfbfndf)
+[![Firefox Add-ons](https://img.shields.io/amo/v/ricehub?label=Firefox)](https://addons.mozilla.org/addon/ricehub/)
+[![Edge Add-ons](https://img.shields.io/badge/Edge-Add--ons-blue.svg)](https://microsoftedge.microsoft.com/addons/detail/hjhgaaebgogmnekbdmlokdinnbdnmbbl)
+
 RiceHub is a browser extension for understanding GitHub repositories with an AI agent. On a repository page, click the floating RiceHub button to prepare a focused analysis prompt and open it in Claude Desktop, Codex Desktop, or a custom HTTPS destination.
 
 RiceHub fills the prompt but does not send it. Review or edit the request in your agent, then submit it yourself.
